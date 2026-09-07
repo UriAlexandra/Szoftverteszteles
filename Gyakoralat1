@@ -32,4 +32,20 @@ Teszt esetek
 -rossz a határérték 20000
 
 4)CinemaTicketCalculator
+-negatív életkor és 120 év feletti életkor érvénytelen nincs lekezelve
+-6 éves ingyenes, pedig specifikáció nem engedi
+-65 évre nem számítja a nyugdíj kedvezményt
+-nem csak a legnagyobb kedvezményt érvényesíti
+-3D film esetén 800 Ft felár fizetendő helyett 180%ot fizet
 
+5)ExamGradeCalculator
+-nincs lekezelve az érvénytelen pontszám
+-ha csak az elmélet van meg a pontszám akkor is kaphat 1esnél jobb jegyet
+-60 pontra is 2est kap
+-70 pontra is 3ast kap
+-85 pontra is 4est kap
+
+6)PackageClassifier 
+-nincs lekezelve az érvénytelen csomag méret és tömeg
+-SMALL csomagnál a 2kg valamint a 30 kg is bele tartozik
+-MEDIUM ha az egyik tulajdonság érvényesül már jó
