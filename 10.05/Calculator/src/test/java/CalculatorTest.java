@@ -38,9 +38,6 @@ class CalculatorTest {
         calculator = new Calculator();
     }
 
-    // --- EGYSZERŰ MŰVELETEK ÉS ALAP KONCEPCIÓK BEÉPÍTÉSE ---
-
-    // 1., 8. és 12. pont: Alap összeadás az Arrange-Act-Assert (AAA) minta alapján beszédes névvel
     @Test
     @DisplayName("2 + 3 eredménye 5")
     void additionWorks() {
@@ -73,8 +70,6 @@ class CalculatorTest {
         assertEquals(5, calculator.divide(20, 4));
     }
 
-    // --- TOVÁBBI JUNIT JELLEMZŐK BEKÖTÉSE ---
-
     // 2. Különféle assert függvények bemutatása
     @Test
     @DisplayName("Különféle assertionök (assertTrue, assertFalse, stb.) bemutatása")
@@ -96,10 +91,7 @@ class CalculatorTest {
                 IllegalArgumentException.class,
                 () -> calculator.divide(10, 0)
         );
-
-        // Ellenőrizzük a pontos hibaüzenetet is
-        assertEquals("Division by zero", exception.getMessage());
-    }
+        assertEquals("Nullával nem lehet osztani!", exception.getMessage());    }
 
     // 7. assertAll: Több dolog egyidejű ellenőrzése
     @Test
@@ -115,10 +107,22 @@ class CalculatorTest {
     }
 
     // 9. @Disabled: Ideiglenesen kikapcsolt teszt
+    //@Test
+    //@Disabled("A funkció még nincs implementálva (pl. hatványozás)")
+    //void unfinishedTest() {}
+
+    // 9. Hatványozás tesztelése (a korábbi @Disabled helyett)
     @Test
-    @Disabled("A funkció még nincs implementálva (pl. hatványozás)")
-    void unfinishedTest() {
-        // ez a kódblokk most nem fog lefutni
+    @DisplayName("Hatványozás működik: 2^3 = 8, 5^0 = 1")
+    void powerWorks() {
+        // Alapeset: 2 a köbön az 8
+        assertEquals(8.0, calculator.power(2, 3));
+
+        // Bármely nullától különböző szám a nulladikon 1
+        assertEquals(1.0, calculator.power(5, 0));
+
+        // Negatív kitevő: 2^(-1) = 0.5
+        assertEquals(0.5, calculator.power(2, -1));
     }
 
     // 10. Paraméterezett tesztek: Ugyanaz a logika több bemeneti adattal
