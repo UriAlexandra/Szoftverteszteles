@@ -1,49 +1,144 @@
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CalculatorTest {
+
+    private Calculator calculator;
+
+    // 5. @BeforeAll: Csak egyszer fut le a tesztek legelején
+    @BeforeAll
+    static void beforeAll() {
+        System.out.println("START - Tesztek futtatásának kezdete");
+    }
+
+    // 5. @AfterAll: Csak egyszer fut le az összes teszt végén
+    @AfterAll
+    static void afterAll() {
+        System.out.println("END - Tesztek futtatásának vége");
+    }
+
+    // 4. @BeforeEach: Minden egyes @Test előtt lefut, új példányt hoz létre
+    @BeforeEach
+    void setUp() {
+        calculator = new Calculator();
+    }
+
+    // --- EGYSZERŰ MŰVELETEK ÉS ALAP KONCEPCIÓK BEÉPÍTÉSE ---
+
+    // 1., 8. és 12. pont: Alap összeadás az Arrange-Act-Assert (AAA) minta alapján beszédes névvel
     @Test
-    void addTwoNumbers() {
-        Calculator calculator = new Calculator();
-        int result = calculator.add(2, 3);
+    @DisplayName("2 + 3 eredménye 5")
+    void additionWorks() {
+        // Arrange
+        int a = 2;
+        int b = 3;
+
+        // Act
+        int result = calculator.add(a, b);
+
+        // Assert (az elvárt érték az első, a kapott a második)
         assertEquals(5, result);
     }
 
     @Test
-    void subtractTwoNumbers() {
-        Calculator calculator = new Calculator();
-        int result = calculator.subtract(10, 4);
-        assertEquals(6, result); // Elvárt eredmény: 6
+    @DisplayName("Kivonás működik: 10 - 3 = 7")
+    void subtractionWorks() {
+        assertEquals(7, calculator.subtract(10, 3));
     }
 
     @Test
-    void multiplyTwoNumbers() {
-        Calculator calculator = new Calculator();
-        int result = calculator.multiply(5, 4);
-        assertEquals(20, result); // Elvárt eredmény: 20
+    @DisplayName("Szorzás működik: 4 * 5 = 20")
+    void multiplicationWorks() {
+        assertEquals(20, calculator.multiply(4, 5));
     }
 
     @Test
-    void divideTwoNumbers() {
-        Calculator calculator = new Calculator();
-        double result = calculator.divide(15, 3);
-        assertEquals(5.0, result); // Elvárt eredmény: 5.0
+    @DisplayName("Osztás működik: 20 / 4 = 5")
+    void divisionWorks() {
+        assertEquals(5, calculator.divide(20, 4));
     }
 
+    // --- TOVÁBBI JUNIT JELLEMZŐK BEKÖTÉSE ---
+
+    // 2. Különféle assert függvények bemutatása
     @Test
-    void divideByZeroThrowsException() {
-        Calculator calculator = new Calculator();
-        // Azt teszteljük, hogy kivételt dob-e a program, ha a második paraméter 0
-        assertThrows(IllegalArgumentException.class, () -> {
-            calculator.divide(10, 0);
-        });
+    @DisplayName("Különféle assertionök (assertTrue, assertFalse, stb.) bemutatása")
+    void simpleAssertions() {
+        assertEquals(4, 2 + 2);
+        assertNotEquals(5, 2 + 2);
+        assertTrue(10 > 5);
+        assertFalse(3 > 10);
+
+        String name = "Oliver";
+        assertNotNull(name);
     }
 
+    // 6. Kivételek tesztelése (Exception ellenőrzése)
     @Test
-    void addNegativeNumbers() {
-        Calculator calculator = new Calculator();
-        int result = calculator.add(-2, -3);
-        assertEquals(-5, result); // Negatív számok tesztelése
+    @DisplayName("Nullával osztás kivételt dob")
+    void divisionByZeroThrowsException() {
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> calculator.divide(10, 0)
+        );
+
+        // Ellenőrizzük a pontos hibaüzenetet is
+        assertEquals("Division by zero", exception.getMessage());
+    }
+
+    // 7. assertAll: Több dolog egyidejű ellenőrzése
+    @Test
+    @DisplayName("Több feltétel egyidejű ellenőrzése")
+    void severalAssertions() {
+        int result = 10;
+
+        assertAll(
+                () -> assertTrue(result > 0),
+                () -> assertTrue(result < 100),
+                () -> assertEquals(10, result)
+        );
+    }
+
+    // 9. @Disabled: Ideiglenesen kikapcsolt teszt
+    @Test
+    @Disabled("A funkció még nincs implementálva (pl. hatványozás)")
+    void unfinishedTest() {
+        // ez a kódblokk most nem fog lefutni
+    }
+
+    // 10. Paraméterezett tesztek: Ugyanaz a logika több bemeneti adattal
+    @ParameterizedTest
+    @CsvSource({
+            "1, 2, 3",
+            "3, 4, 7",
+            "-1, 1, 0",
+            "10, 20, 30"
+    })
+    @DisplayName("Összeadás paraméterezve több adatsorral")
+    void parameterizedAdditionWorks(int a, int b, int expected) {
+        assertEquals(expected, calculator.add(a, b));
+    }
+
+    // 11. @ValueSource: Egyszerű listás paraméterezés
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3, 10, 100})
+    @DisplayName("Pozitív számok tesztelése ValueSource használatával")
+    void positiveNumbersArePositive(int number) {
+        assertTrue(number > 0);
     }
 }
