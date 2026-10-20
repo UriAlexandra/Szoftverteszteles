@@ -1,4 +1,5 @@
 package org.example;
 
-public class ExchangeRateService {
+public interface ExchangeRateService {
+    double getRate(String from, String to);
 }
