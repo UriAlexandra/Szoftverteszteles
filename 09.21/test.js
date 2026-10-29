@@ -8,15 +8,15 @@ QUnit.module("Arab szám → római szám átalakító", function () {
   QUnit.module("Normál működés", function () {
     QUnit.test.each(
       "A feladatleírás példái",
-      [
-        [1, "I"],
-        [4, "IV"],
-        [9, "IX"],
-        [14, "XIV"],
-        [58, "LVIII"],
-        [1994, "MCMXCIV"],
-        [3999, "MMMCMXCIX"],
-      ],
+      {
+        "1 → I": [1, "I"],
+        "4 → IV": [4, "IV"],
+        "9 → IX": [9, "IX"],
+        "14 → XIV": [14, "XIV"],
+        "58 → LVIII": [58, "LVIII"],
+        "1994 → MCMXCIV": [1994, "MCMXCIV"],
+        "3999 → MMMCMXCIX": [3999, "MMMCMXCIX"],
+      },
       function (assert, [input, expected]) {
         assert.strictEqual(
           arabicToRomanConverter(input),
