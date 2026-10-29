@@ -37,4 +37,21 @@ QUnit.test("Tízesek: X, XL, L, XC", function (assert) {
     assert.strictEqual(arabicToRomanConverter(90), "XC", "90 → XC");
     assert.strictEqual(arabicToRomanConverter(99), "XCIX", "99 → XCIX");
   });
+
+QUnit.test("Százasok és ezresek: C, CD, D, CM, M", function (assert) {
+    assert.strictEqual(arabicToRomanConverter(100), "C", "100 → C");
+    assert.strictEqual(arabicToRomanConverter(400), "CD", "400 → CD");
+    assert.strictEqual(arabicToRomanConverter(444), "CDXLIV", "444 → CDXLIV");
+    assert.strictEqual(arabicToRomanConverter(500), "D", "500 → D");
+    assert.strictEqual(arabicToRomanConverter(900), "CM", "900 → CM");
+    assert.strictEqual(arabicToRomanConverter(999), "CMXCIX", "999 → CMXCIX");
+    assert.strictEqual(arabicToRomanConverter(1000), "M", "1000 → M");
+    assert.strictEqual(arabicToRomanConverter(1994), "MCMXCIV", "1994 → MCMXCIV");
+    assert.strictEqual(arabicToRomanConverter(2026), "MMXXVI", "2026 → MMXXVI");
+    assert.strictEqual(
+      arabicToRomanConverter(3888),
+      "MMMDCCCLXXXVIII",
+      "3888 → MMMDCCCLXXXVIII (a leghosszabb alak)",
+    );
+  });
 });
