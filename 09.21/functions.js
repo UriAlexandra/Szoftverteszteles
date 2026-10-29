@@ -1,5 +1,5 @@
 function arabicToRomanConverter(number) {
-  return "I";
+  return "I".repeat(number);
 }
 
 // Node alatti futtatáshoz (npm test)
