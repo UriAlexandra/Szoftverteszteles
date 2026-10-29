@@ -15,6 +15,9 @@ const ROMAN_NUMERALS = [
 ];
 
 function arabicToRomanConverter(number) {
+  if (typeof number !== "number" || !Number.isInteger(number)) {
+    throw new TypeError("A bemenetnek egész számnak kell lennie.");
+  }
   if (number < 1 || number > 3999) {
     throw new RangeError("A szám csak 1 és 3999 között lehet.");
   }
