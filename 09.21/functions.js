@@ -1,14 +1,20 @@
+const ROMAN_NUMERALS = [
+  { value: 9, symbol: "IX" },
+  { value: 5, symbol: "V" },
+  { value: 4, symbol: "IV" },
+  { value: 1, symbol: "I" },
+];
+
 function arabicToRomanConverter(number) {
-  if (number === 9) {
-    return "IX";
+  let rest = number;
+  let result = "";
+  for (const { value, symbol } of ROMAN_NUMERALS) {
+    while (rest >= value) {
+      result += symbol;
+      rest -= value;
+    }
   }
-  if (number >= 5) {
-    return "V" + "I".repeat(number - 5);
-  }
-  if (number === 4) {
-    return "IV";
-  }
-  return "I".repeat(number);
+  return result;
 }
 
 // Node alatti futtatáshoz (npm test)
