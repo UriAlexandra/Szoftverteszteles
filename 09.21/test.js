@@ -54,4 +54,21 @@ QUnit.test("Százasok és ezresek: C, CD, D, CM, M", function (assert) {
       "3888 → MMMDCCCLXXXVIII (a leghosszabb alak)",
     );
   });
+
+QUnit.test("Határértékek: 1 és 3999 még érvényes", function (assert) {
+    assert.strictEqual(arabicToRomanConverter(1), "I", "alsó határ: 1 → I");
+    assert.strictEqual(
+      arabicToRomanConverter(3999),
+      "MMMCMXCIX",
+      "felső határ: 3999 → MMMCMXCIX",
+    );
+  });
+
+  QUnit.test("Tartományon kívüli számok: 0, negatív, 3999 felett", function (assert) {
+    assert.throws(() => arabicToRomanConverter(0), /^RangeError/, "0 → RangeError");
+    assert.throws(() => arabicToRomanConverter(-1), /^RangeError/, "-1 → RangeError");
+    assert.throws(() => arabicToRomanConverter(-58), /^RangeError/, "-58 → RangeError");
+    assert.throws(() => arabicToRomanConverter(4000), /^RangeError/, "4000 → RangeError");
+    assert.throws(() => arabicToRomanConverter(10000), /^RangeError/, "10000 → RangeError");
+  });
 });
