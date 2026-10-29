@@ -1,4 +1,8 @@
 const ROMAN_NUMERALS = [
+  { value: 90, symbol: "XC" },
+  { value: 50, symbol: "L" },
+  { value: 40, symbol: "XL" },
+  { value: 10, symbol: "X" },
   { value: 9, symbol: "IX" },
   { value: 5, symbol: "V" },
   { value: 4, symbol: "IV" },
