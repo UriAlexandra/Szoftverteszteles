@@ -115,4 +115,21 @@ QUnit.module("Arab szám → római szám átalakító", function () {
       assert.throws(() => arabicToRomanConverter(true), /^TypeError/, "true → TypeError");
     });
   });
+
+  QUnit.module("Teljes tartomány", function () {
+    QUnit.test("1 és 3999 között minden szám szabályos, egyedi római számot ad", function (assert) {
+      const validRoman = /^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/;
+      const seen = new Set();
+      const invalid = [];
+      for (let n = 1; n <= 3999; n++) {
+        const roman = arabicToRomanConverter(n);
+        if (roman === "" || !validRoman.test(roman)) {
+          invalid.push(n);
+        }
+        seen.add(roman);
+      }
+      assert.deepEqual(invalid, [], "minden eredmény szabályos római szám");
+      assert.strictEqual(seen.size, 3999, "nincs két szám ugyanazzal a római alakkal");
+    });
+  });
 });
