@@ -71,4 +71,18 @@ QUnit.test("Határértékek: 1 és 3999 még érvényes", function (assert) {
     assert.throws(() => arabicToRomanConverter(4000), /^RangeError/, "4000 → RangeError");
     assert.throws(() => arabicToRomanConverter(10000), /^RangeError/, "10000 → RangeError");
   });
+
+QUnit.test("Nem egész számok és nem szám típusú bemenetek", function (assert) {
+    assert.throws(() => arabicToRomanConverter(1.5), /^TypeError/, "1.5 → TypeError");
+    assert.throws(() => arabicToRomanConverter(3.14), /^TypeError/, "3.14 → TypeError");
+    assert.throws(() => arabicToRomanConverter(-2.5), /^TypeError/, "-2.5 → TypeError");
+    assert.throws(() => arabicToRomanConverter(NaN), /^TypeError/, "NaN → TypeError");
+    assert.throws(() => arabicToRomanConverter(Infinity), /^TypeError/, "Infinity → TypeError");
+    assert.throws(() => arabicToRomanConverter("10"), /^TypeError/, '"10" (szöveg) → TypeError');
+    assert.throws(() => arabicToRomanConverter(""), /^TypeError/, '"" (üres szöveg) → TypeError');
+    assert.throws(() => arabicToRomanConverter(null), /^TypeError/, "null → TypeError");
+    assert.throws(() => arabicToRomanConverter(undefined), /^TypeError/, "undefined → TypeError");
+    assert.throws(() => arabicToRomanConverter(), /^TypeError/, "paraméter nélkül → TypeError");
+    assert.throws(() => arabicToRomanConverter(true), /^TypeError/, "true → TypeError");
+  });
 });
