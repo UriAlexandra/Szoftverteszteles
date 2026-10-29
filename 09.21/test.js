@@ -4,4 +4,8 @@ if (typeof module !== "undefined" && module.exports) {
     require("./functions.js").arabicToRomanConverter;
 }
 
-QUnit.module("Arab szám → római szám átalakító", function () {});
+QUnit.module("Arab szám → római szám átalakító", function () {
+QUnit.test("Az 1 átalakítása", function (assert) {
+    assert.strictEqual(arabicToRomanConverter(1), "I", "1 → I");
+  });
+});
