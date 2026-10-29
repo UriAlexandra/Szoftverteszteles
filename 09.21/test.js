@@ -13,4 +13,11 @@ QUnit.test("Az I ismétlése: 2 és 3", function (assert) {
     assert.strictEqual(arabicToRomanConverter(2), "II", "2 → II");
     assert.strictEqual(arabicToRomanConverter(3), "III", "3 → III");
   });
+
+QUnit.test("Az V jel és a rá épülő számok: 5–8", function (assert) {
+    assert.strictEqual(arabicToRomanConverter(5), "V", "5 → V");
+    assert.strictEqual(arabicToRomanConverter(6), "VI", "6 → VI");
+    assert.strictEqual(arabicToRomanConverter(7), "VII", "7 → VII");
+    assert.strictEqual(arabicToRomanConverter(8), "VIII", "8 → VIII");
+  });
 });
