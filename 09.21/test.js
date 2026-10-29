@@ -20,4 +20,9 @@ QUnit.test("Az V jel és a rá épülő számok: 5–8", function (assert) {
     assert.strictEqual(arabicToRomanConverter(7), "VII", "7 → VII");
     assert.strictEqual(arabicToRomanConverter(8), "VIII", "8 → VIII");
   });
+
+QUnit.test("Kivonásos alakok: IV és IX", function (assert) {
+    assert.strictEqual(arabicToRomanConverter(4), "IV", "4 → IV");
+    assert.strictEqual(arabicToRomanConverter(9), "IX", "9 → IX");
+  });
 });
