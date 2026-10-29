@@ -25,4 +25,16 @@ QUnit.test("Kivonásos alakok: IV és IX", function (assert) {
     assert.strictEqual(arabicToRomanConverter(4), "IV", "4 → IV");
     assert.strictEqual(arabicToRomanConverter(9), "IX", "9 → IX");
   });
+
+QUnit.test("Tízesek: X, XL, L, XC", function (assert) {
+    assert.strictEqual(arabicToRomanConverter(10), "X", "10 → X");
+    assert.strictEqual(arabicToRomanConverter(14), "XIV", "14 → XIV");
+    assert.strictEqual(arabicToRomanConverter(20), "XX", "20 → XX");
+    assert.strictEqual(arabicToRomanConverter(40), "XL", "40 → XL");
+    assert.strictEqual(arabicToRomanConverter(49), "XLIX", "49 → XLIX");
+    assert.strictEqual(arabicToRomanConverter(50), "L", "50 → L");
+    assert.strictEqual(arabicToRomanConverter(58), "LVIII", "58 → LVIII");
+    assert.strictEqual(arabicToRomanConverter(90), "XC", "90 → XC");
+    assert.strictEqual(arabicToRomanConverter(99), "XCIX", "99 → XCIX");
+  });
 });
