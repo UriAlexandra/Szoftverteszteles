@@ -1,0 +1,13 @@
+{
+  "name": "roman-converter-tdd",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Arab szám → római szám átalakító TDD módszerrel (QUnit)",
+  "main": "functions.js",
+  "scripts": {
+    "test": "qunit test.js"
+  },
+  "devDependencies": {
+    "qunit": "2.26.0"
+  }
+}
