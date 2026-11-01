@@ -5,7 +5,7 @@ Szoftvertesztelés – 3. feladat. Egy egyszerű bankszámlát modellező Java-o
 ## Projekt felépítése
 
 ```
-10.29-BankAccount/
+10.05/Órai jegyzet/BankAccount/
 ├── pom.xml                                   Maven-konfiguráció (Java 17, JUnit 5.11)
 ├── src/main/java/org/example/BankAccount.java
 └── src/test/java/org/example/BankAccountTest.java
@@ -27,13 +27,34 @@ Szoftvertesztelés – 3. feladat. Egy egyszerű bankszámlát modellező Java-o
 
 Minden ellenőrzés az egyenleg módosítása előtt fut le, ezért sikertelen művelet után az egyenleg nem változik.
 
+## A követelmények teljesítése
+
+| Követelmény | Megvalósítás | Teszt |
+|---|---|---|
+| Az induló egyenleg 0 | a konstruktor 0-ra állítja | 1. eset |
+| A `deposit()` növeli az egyenleget | `balance += amount` | 2., 3. eset |
+| A `withdraw()` csökkenti az egyenleget | `balance -= amount` | 4., 5. eset |
+| A `getBalance()` az aktuális egyenleget adja | visszaadja a `balance` mezőt | minden teszt ezen keresztül ellenőriz |
+| 0 vagy negatív befizetés nem engedélyezett | `IllegalArgumentException` | 7., 8. eset és paraméterezett teszt |
+| 0 vagy negatív pénzfelvétel nem engedélyezett | `IllegalArgumentException` | 9., 10. eset és paraméterezett teszt |
+| Nem vehető fel több, mint az egyenleg | `IllegalArgumentException` | 6. eset, üres számla, paraméterezett teszt |
+| Hibás műveletnél `IllegalArgumentException` | minden hibás esetben ez a kivétel | 6–10. eset, hibaüzenetek |
+| Sikertelen műveletnél az egyenleg nem változik | az ellenőrzés a módosítás előtt fut | 6–10. eset és „Sikertelen műveletek után az egyenleg változatlan” csoport |
+
 ## Futtatás és tesztelés
 
 **Szükséges:** JDK 17 vagy újabb, valamint Maven 3.9+. Ehelyett az IntelliJ IDEA beépített Mavenje is megfelel.
 
 ### Parancssorból
 
-A `10.29-BankAccount` mappában:
+A repository letöltése és a projekt mappájába lépés (a mappanévben szóköz van, ezért kell az idézőjel):
+
+```bash
+git clone https://github.com/UriAlexandra/Szoftverteszteles.git
+cd "Szoftverteszteles/10.05/Órai jegyzet/BankAccount"
+```
+
+A tesztek futtatása:
 
 ```bash
 mvn test
@@ -41,10 +62,24 @@ mvn test
 
 A Maven letölti a JUnit 5-öt, lefordítja a kódot, és lefuttatja a teszteket. A részletes eredmény a `target/surefire-reports` mappába kerül.
 
+**Sikeres futás esetén** a kimenet végén ez látszik:
+
+```
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 33, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO] BUILD SUCCESS
+```
+
+Ha egy teszt elbukik, a `Failures` értéke 0-nál nagyobb lesz, a Maven kiírja a bukott teszt nevét az elvárt és a kapott értékkel, és a végén `BUILD FAILURE` jelenik meg.
+
 ### IntelliJ IDEA-ban
 
-1. **File → Open**, majd a `10.29-BankAccount` mappa `pom.xml` fájlja, és megnyitás projektként.
+1. **File → Open**, majd a `10.05/Órai jegyzet/BankAccount` mappa `pom.xml` fájlja, és megnyitás projektként.
 2. Jobb klikk a `BankAccountTest` osztályon, majd **Run 'BankAccountTest'**.
+
+Sikeres futás esetén a Run ablakban zöld pipa és a **„Tests passed: 33 of 33 tests”** felirat jelenik meg. A tesztek a beágyazott csoportok szerint, olvasható magyar nevükkel látszanak (pl. „1. Új számla egyenlege 0”).
 
 ### Az osztály kipróbálása
 
