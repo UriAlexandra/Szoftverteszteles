@@ -1,6 +1,6 @@
 # Arab szám → római szám átalakító (TDD)
 
-Szoftvertesztelés – 2. feladat. JavaScript-függvény, amely az 1 és 3999 közötti egész számokat római számmá alakítja. A fejlesztés tesztvezérelten (TDD) történt, QUnit tesztkeretrendszerrel. A folyamat a Git commitokból követhető.
+Szoftvertesztelés – 2. feladat. JavaScript-függvény, amely az 1 és 3999 közötti egész számokat római számmá alakítja. A fejlesztés tesztvezérelten (TDD) történt, QUnit tesztkeretrendszerrel.
 
 ## Fájlok
 
@@ -81,7 +81,7 @@ A kivételeket a tesztek reguláris kifejezéssel ellenőrzik (pl. `assert.throw
 
 ## A TDD folyamat
 
-A commitok előtagja jelzi, hogy a ciklus melyik lépése történt:
+A fejlesztés a TDD-ciklus lépéseiben haladt:
 
 - **RED:** új, sikertelen teszt
 - **GREEN:** a teszt teljesítéséhez szükséges minimális kód
@@ -101,9 +101,3 @@ A commitok előtagja jelzi, hogy a ciklus melyik lépése történt:
 | 8 | nem egész / nem szám bemenet → TypeError | típusellenőrzés a tartomány-ellenőrzés előtt |
 | – | *REFACTOR:* konstansok, befagyasztott táblázat, JSDoc; tesztek csoportosítása modulokba | |
 | – | *TESZT:* a teljes 1–3999 tartomány ellenőrzése | |
-
-Minden RED commitnál pontosan az újonnan felvett teszt bukik, minden más commitnál az összes teszt zöld. A projekt teljes története a mappában kiadott paranccsal nézhető meg:
-
-```bash
-git log --oneline --reverse -- .
-```
