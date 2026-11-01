@@ -5,18 +5,23 @@ Szoftvertesztelés – 4. feladat. A 3. feladat `BankAccount` osztálya kiegész
 ## Projekt felépítése
 
 ```
-10.29-Mockito/
+10.19/Mockito/
 ├── pom.xml                         Maven (Java 17, JUnit 5.11, Mockito 5.14.2)
 ├── src/main/java/org/example/
 │   ├── BankAccount.java            a 3. feladat bankszámlája
 │   ├── NotificationService.java    értesítési szolgáltatás (interfész)
 │   ├── BankService.java            befizetés + értesítés
 │   ├── ExchangeRateService.java    árfolyam-szolgáltatás (interfész)
-│   └── CurrencyConverter.java      devizaátváltás az árfolyam-szolgáltatással
+│   ├── CurrencyConverter.java      devizaátváltás az árfolyam-szolgáltatással
+│   ├── User.java                   órai gyakorló feladat
+│   ├── UserDatabase.java           órai gyakorló feladat
+│   └── App.java                    a Maven-sablon kiinduló osztálya
 └── src/test/java/org/example/
     ├── BankServiceTest.java        mock(), verify()
     ├── ExchangeRateServiceTest.java when().thenReturn()
-    └── BankAccountTest.java        a 3. feladat tesztjei
+    ├── BankAccountTest.java        a 3. feladat tesztjei
+    ├── UserTest.java               órai gyakorló feladat (@Mock, doThrow)
+    └── AppTest.java                a Maven-sablon tesztje
 ```
 
 ## Az osztályok
@@ -36,19 +41,65 @@ A `deposit(BankAccount account, double amount)` befizet a számlára, majd érte
 
 **`CurrencyConverter`:** az árfolyam-szolgáltatást szintén konstruktoron kapja. A `convert(amount, from, to)` metódus az árfolyammal szorozva vált át. Negatív összegnél `IllegalArgumentException`, érvénytelen (0 vagy negatív) árfolyamnál `IllegalStateException` kivételt dob.
 
+## A követelmények teljesítése
+
+| Követelmény | Megvalósítás | Teszt |
+|---|---|---|
+| `NotificationService` interfész | `void send(String message)` | – |
+| `BankService`: befizetés, majd értesítés | `BankService.deposit(account, amount)` | `BankServiceTest` 1–3. eset |
+| Dependency Injection konstruktoron keresztül | `new BankService(notificationService)` | minden `BankServiceTest`; `null` szolgáltatás nem adható át |
+| 1. A befizetés növeli az egyenleget | | `BankServiceTest` 1. eset |
+| 2. Sikeres befizetés után meghívódik a `send()` | | `BankServiceTest` 2. eset |
+| 3. `verify()`: a megfelelő értesítés megy ki | | `BankServiceTest` 3. eset |
+| 4. Sikertelen befizetésnél nincs értesítés | | `BankServiceTest` 4. eset (0, -100, `NaN`) |
+| 5. Nincs valódi külső értesítési szolgáltatás | a projektben nincs megvalósító osztály, a tesztek `mock()`-ot kapnak | `BankServiceTest` 5. eset |
+| `ExchangeRateService` interfész | `double getRate(String from, String to)` | – |
+| Árfolyam beállítása `when().thenReturn()`-nel | | `ExchangeRateServiceTest` |
+| Teszt a beállított válasz ellenőrzésére | | „A mock a beállított EUR → HUF árfolyamot (400.0) adja vissza” |
+| Futtatás `mvn clean test`-tel | | lásd [Futtatás és tesztelés](#futtatás-és-tesztelés) |
+| `mock()`, `verify()`, `when().thenReturn()` használata | | lásd [A használt Mockito-eszközök](#a-használt-mockito-eszközök) |
+
 ## Futtatás és tesztelés
 
 **Szükséges:** JDK 17 vagy újabb, valamint Maven 3.9+. Ehelyett az IntelliJ IDEA beépített Mavenje is megfelel.
 
-A `10.29-Mockito` mappában:
+### Parancssorból
+
+A repository letöltése és a projekt mappájába lépés:
+
+```bash
+git clone https://github.com/UriAlexandra/Szoftverteszteles.git
+cd Szoftverteszteles/10.19/Mockito
+```
+
+A tesztek futtatása:
 
 ```bash
 mvn clean test
 ```
 
-A Maven letölti a JUnit 5-öt és a Mockito-t, lefordítja a kódot, és lefuttatja mindhárom tesztosztályt. A részletes eredmény a `target/surefire-reports` mappába kerül.
+A Maven letölti a JUnit 5-öt és a Mockito-t, lefordítja a kódot, és lefuttatja az összes tesztosztályt. A részletes eredmény a `target/surefire-reports` mappába kerül.
 
-**IntelliJ IDEA-ban:** **File → Open**, majd a `10.29-Mockito` mappa `pom.xml` fájlja, és megnyitás projektként. Utána jobb klikk a `src/test/java` mappán, majd **Run 'All Tests'**.
+**Sikeres futás esetén** a kimenet végén ez látszik:
+
+```
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 56, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO] BUILD SUCCESS
+```
+
+Az 56 teszt megoszlása: `BankServiceTest` 12, `ExchangeRateServiceTest` 8, `BankAccountTest` 33, valamint az órai `UserTest` 2 és `AppTest` 1.
+
+Ha egy teszt elbukik, a `Failures` értéke 0-nál nagyobb lesz, a Maven kiírja a bukott teszt nevét az elvárt és a kapott értékkel, és a végén `BUILD FAILURE` jelenik meg. Egy elmaradt vagy hibás `verify()` esetén a Mockito azt is kiírja, melyik hívást várta, és milyen hívások történtek valójában.
+
+### IntelliJ IDEA-ban
+
+1. **File → Open**, majd a `10.19/Mockito` mappa `pom.xml` fájlja, és megnyitás projektként.
+2. Jobb klikk a `src/test/java` mappán, majd **Run 'All Tests'**.
+
+Sikeres futás esetén a Run ablakban zöld pipa és a **„Tests passed: 56 of 56 tests”** felirat jelenik meg.
 
 JDK 21 vagy újabb esetén a Mockito figyelmeztetést írhat ki arról, hogy futás közben tölti be a saját Java-agentjét („Mockito is currently self-attaching…”). Ez nem hiba, a tesztek ettől függetlenül lefutnak.
 
@@ -100,3 +151,10 @@ JDK 21 vagy újabb esetén a Mockito figyelmeztetést írhat ki arról, hogy fut
 ### `BankAccountTest`
 
 A 3. feladat 33 tesztesete változatlanul.
+
+### Órai fájlok
+
+A mappában maradtak a 10.19-es óra fájljai is, ezek is lefutnak a `mvn clean test`-tel:
+
+- **`UserTest`:** annotációs Mockito-használat. A `@Mock` és az `@ExtendWith(MockitoExtension.class)` mellett `when().thenReturn()`, `verify()` és `doThrow()` is szerepel benne (a `User` és a `UserDatabase` osztályhoz).
+- **`App` és `AppTest`:** a Maven-projektsablon kiinduló osztálya és tesztje.
