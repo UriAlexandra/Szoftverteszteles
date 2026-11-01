@@ -38,6 +38,13 @@ Az átalakítás mohó algoritmussal működik. Egy csökkenő sorrendű érték
 
 Nyisd meg a `test.html` fájlt egy böngészőben. A QUnit a `code.jquery.com` oldalról töltődik be, ezért internetkapcsolat kell hozzá. Az oldal az összes teszt eredményét mutatja, a sikerteleneket pirossal.
 
+**Sikeres futás esetén** az oldal tetején zöld sáv és ez az összesítés látszik (az időtartam gépenként eltérhet):
+
+```
+17 tests completed in 30 milliseconds, with 0 failed, 0 skipped, and 0 todo.
+57 assertions of 57 passed, 0 failed.
+```
+
 ### Parancssorból (Node.js)
 
 ```bash
@@ -46,6 +53,19 @@ npm test
 ```
 
 Az `npm test` a QUnit parancssori futtatóját indítja (`qunit test.js`), és TAP formátumban írja ki az eredményt.
+
+**Sikeres futás esetén** mind a 17 teszt `ok` sorral jelenik meg, a kimenet vége pedig:
+
+```
+ok 17 Arab szám → római szám átalakító > Teljes tartomány > 1 és 3999 között minden szám szabályos, egyedi római számot ad
+1..17
+# pass 17
+# skip 0
+# todo 0
+# fail 0
+```
+
+Ha egy teszt elbukik, `not ok` sor jelenik meg az elvárt és a kapott értékkel, a `# fail` értéke pedig 0-nál nagyobb lesz.
 
 ## Tesztek
 
